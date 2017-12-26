@@ -1,0 +1,87 @@
+---
+# tasks file for ansible-lc-asg-aws
+---
+  
+  - name: Create target group 
+    elb_target_group:
+      region: "{{ region }}"
+      name: "{{ tgname }}"
+      protocol: http
+      port: 80
+      vpc_id: "{{ vpcid }}"
+      health_check_path: /
+      health_check_protocol: http
+      health_check_port: 80
+      health_check_interval: 5
+      health_check_timeout: 3
+      healthy_threshold_count: 2
+      successful_response_codes: "200"
+      state: present
+      wait_timeout: 200
+      wait: True
+    tags:
+      - tg
+    register: tg
+
+  - name: Create ALB
+    elb_application_lb:
+      name: "{{ albname }}"
+      region: "{{ region }}"
+      security_groups:
+        - "{{ sgalb }}"
+      subnets:
+        - "{{ subneta }}"
+        - "{{ subnetb }}"
+        - "{{ subnetc }}"
+      listeners:
+        - Protocol: HTTP 
+          Port: 80
+          DefaultActions:
+            - Type: forward 
+              TargetGroupName: "{{ tgname }}"
+      state: present
+    tags:
+      - alb
+    register: alb
+
+  - name: Create esc cluster
+    ecs_cluster:
+      name: "{{ clustername }}"
+      region: "{{ region }}"
+      state: present
+    tags:
+      - ec2cluster
+    when: cluster == "ecs"
+
+  - name: Create launch configuration
+    ec2_lc:
+      name: "{{ lcname }}"
+      region: "{{ region }}"
+      image_id: "{{ amiid }}"
+      key_name: "{{ sshkey }}"
+      security_groups: "{{ sglc }}"
+      instance_type: "{{ instancetype }}"
+      instance_profile_name: "{{ role | default(omit) }}"
+      user_data: "{{ my_user_data }}"
+      assign_public_ip: True
+      vpc_id: "{{ vpcid }}"
+    tags:
+      - lc
+
+  - name: Create ASG for esc cluster
+    ec2_asg:
+      name: "{{ asgname }}"
+      launch_config_name: "{{ lcname }}"
+      health_check_period: 60
+      health_check_type: EC2
+      replace_all_instances: yes
+      min_size: 1
+      max_size: 5
+      desired_capacity: 1
+      region: "{{ region }}"
+      vpc_zone_identifier: "{{ vpczone }}"
+      target_group_arns: "{{ tg.target_group_arn }}"
+    tags:
+      - asg
+      
+      

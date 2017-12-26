@@ -1,0 +1,28 @@
+---
+# vars file for ansible-lc-asg-aws
+
+#clustername: "name of ecs cluster if used"
+region: "region id"
+lcname: "name of LaunchConfigurations"
+amiid: "ami id"
+sshkey: "ssh key name"
+sgalb: "security group for alb"
+sglc: ['security group for LaunchConfigurations']
+instancetype: "instance type"
+#Need if you use ecs instance type
+##my_user_data: |
+##              #!/bin/bash
+##              echo ECS_CLUSTER={{ clustername }} >> /etc/ecs/ecs.config
+
+asgname: "security group name"
+vpcid: "vpc id for LaunchConfigurations and target group"
+#vpczone - vpc subnets for autoscaling group
+vpczone: ['subnet id for availability zone a', 'subnet id for availability zone b', 'subnet id for availability zone c']
+albname: "Name of ALB"
+#subneta, subnetb, subnetc - vpc subnets for ALB
+subneta: "subnet-f5480eb8"
+subnetb: "subnet-9b33fff3"
+subnetc: "subnet-5118182a"
+tgname: "name of target group"
+#Need if you use ecs instance type
+#role: "ecsInstanceRole"
