@@ -1,28 +1,28 @@
 ---
 # vars file for ansible-lc-asg-aws
+lc-asg:
+  #aws_ecs_clustername: "name of ecs cluster if used"
+  aws_region: "region id"
+  aws_lc_name: "name of LaunchConfigurations"
+  aws_ami_id: "ami id"
+  aws_key_pair: "ssh key name"
+  aws_sg_alb: "security group for alb"
+  aws_sg_lc: ['security group for LaunchConfigurations']
+  aws_instance_type: "instance type"
+  #Need if you use ecs instance type
+  ##aws_my_user_data: |
+  ##              #!/bin/bash
+  ##              echo ECS_CLUSTER={{ clustername }} >> /etc/ecs/ecs.config
 
-#clustername: "name of ecs cluster if used"
-region: "region id"
-lcname: "name of LaunchConfigurations"
-amiid: "ami id"
-sshkey: "ssh key name"
-sgalb: "security group for alb"
-sglc: ['security group for LaunchConfigurations']
-instancetype: "instance type"
-#Need if you use ecs instance type
-##my_user_data: |
-##              #!/bin/bash
-##              echo ECS_CLUSTER={{ clustername }} >> /etc/ecs/ecs.config
-
-asgname: "security group name"
-vpcid: "vpc id for LaunchConfigurations and target group"
-#vpczone - vpc subnets for autoscaling group
-vpczone: ['subnet id for availability zone a', 'subnet id for availability zone b', 'subnet id for availability zone c']
-albname: "Name of ALB"
-#subneta, subnetb, subnetc - vpc subnets for ALB
-subneta: "subnet-f5480eb8"
-subnetb: "subnet-9b33fff3"
-subnetc: "subnet-5118182a"
-tgname: "name of target group"
-#Need if you use ecs instance type
-#role: "ecsInstanceRole"
+  aws_asg_name: "auto scaling group name"
+  aws_vpc_id: "vpc id for LaunchConfigurations and target group"
+  #aws_vpc_zone - vpc subnets for autoscaling group
+  aws_vpc_zone: ['subnet id for availability zone a', 'subnet id for availability zone b', 'subnet id for availability zone c']
+  aws_alb_name: "Name of ALB"
+  #subneta, subnetb, subnetc - vpc subnets for ALB
+  aws_alb_subnet_az_a: "subnet id for availability zone a"
+  aws_alb_subnet_az_b: "subnet id for availability zone b"
+  aws_alb_subnet_az_c: "subnet id for availability zone c"
+  aws_tg_name: "name of target group"
+  #Need if you use ecs instance type
+  #aws_ecs_ec2_role: "ecsInstanceRole"

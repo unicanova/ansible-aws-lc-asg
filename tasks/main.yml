@@ -4,11 +4,11 @@
   
   - name: Create target group 
     elb_target_group:
-      region: "{{ region }}"
-      name: "{{ tgname }}"
+      region: "{{ lc-asg.aws_region }}"
+      name: "{{ lc-asg.aws_tg_name }}"
       protocol: http
       port: 80
-      vpc_id: "{{ vpcid }}"
+      vpc_id: "{{ lc-asg.aws_vpc_id }}"
       health_check_path: /
       health_check_protocol: http
       health_check_port: 80
@@ -25,20 +25,20 @@
 
   - name: Create ALB
     elb_application_lb:
-      name: "{{ albname }}"
-      region: "{{ region }}"
+      name: "{{ lc-asg.aws_alb_name }}"
+      region: "{{ lc-asg.aws_region }}"
       security_groups:
-        - "{{ sgalb }}"
+        - "{{ lc-asg.aws_sg_alb }}"
       subnets:
-        - "{{ subneta }}"
-        - "{{ subnetb }}"
-        - "{{ subnetc }}"
+        - "{{ lc-asg.aws_alb_subnet_az_a }}"
+        - "{{ lc-asg.aws_alb_subnet_az_b }}"
+        - "{{ lc-asg.aws_alb_subnet_az_c }}"
       listeners:
         - Protocol: HTTP 
           Port: 80
           DefaultActions:
             - Type: forward 
-              TargetGroupName: "{{ tgname }}"
+              TargetGroupName: "{{ lc-asg.aws_tg_name }}"
       state: present
     tags:
       - alb
@@ -46,8 +46,8 @@
 
   - name: Create esc cluster
     ecs_cluster:
-      name: "{{ clustername }}"
-      region: "{{ region }}"
+      name: "{{ lc-asg.aws_ecs_clustername }}"
+      region: "{{ lc-asg.aws_region }}"
       state: present
     tags:
       - ec2cluster
@@ -55,31 +55,31 @@
 
   - name: Create launch configuration
     ec2_lc:
-      name: "{{ lcname }}"
-      region: "{{ region }}"
-      image_id: "{{ amiid }}"
-      key_name: "{{ sshkey }}"
-      security_groups: "{{ sglc }}"
-      instance_type: "{{ instancetype }}"
-      instance_profile_name: "{{ role | default(omit) }}"
-      user_data: "{{ my_user_data }}"
+      name: "{{ lc-asg.aws_lc_name }}"
+      region: "{{ lc-asg.aws_region }}"
+      image_id: "{{ lc-asg.aws_ami_id }}"
+      key_name: "{{ lc-asg.aws_key_pair }}"
+      security_groups: "{{ lc-asg.aws_sg_lc }}"
+      instance_type: "{{ lc-asg.aws_instance_type }}"
+      instance_profile_name: "{{ lc-aws.aws_ecs_ec2_role | default(omit) }}"
+      user_data: "{{ lc-asg.aws_my_user_data }}"
       assign_public_ip: True
-      vpc_id: "{{ vpcid }}"
+      vpc_id: "{{ lc-asg.aws_vpc_id }}"
     tags:
       - lc
 
   - name: Create ASG for esc cluster
     ec2_asg:
-      name: "{{ asgname }}"
-      launch_config_name: "{{ lcname }}"
+      name: "{{ lc-asg.aws_asg_name }}"
+      launch_config_name: "{{ lc-asg.aws_lc_name }}"
       health_check_period: 60
       health_check_type: EC2
       replace_all_instances: yes
       min_size: 1
       max_size: 5
       desired_capacity: 1
-      region: "{{ region }}"
-      vpc_zone_identifier: "{{ vpczone }}"
+      region: "{{ lc-asg.aws_region }}"
+      vpc_zone_identifier: "{{ lc-asg.aws_vpc_zone }}"
       target_group_arns: "{{ tg.target_group_arn }}"
     tags:
       - asg
