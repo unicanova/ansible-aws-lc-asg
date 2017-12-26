@@ -1,5 +1,5 @@
 galaxy_info:
-  author: Sergey Ovsienko serg.ovsienko@gmail.com
+  author: Sergey Ovsienko so@unicanova.com
   description: Ansible role for create ASG and ALB. Can used with ECS
   company: UnicaNova https://unicanova.com/
   license: license (MIT)
