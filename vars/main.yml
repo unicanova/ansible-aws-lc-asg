@@ -1,6 +1,8 @@
 ---
 # vars file for ansible-lc-asg-aws
-lc-asg:
+lc_asg:
+  #Uncomment aws_ecs if you be used ecs
+  #aws_ecs: "Yes"
   #aws_ecs_clustername: "name of ecs cluster if used"
   aws_region: "region id"
   aws_lc_name: "name of LaunchConfigurations"
@@ -9,11 +11,6 @@ lc-asg:
   aws_sg_alb: "security group for alb"
   aws_sg_lc: ['security group for LaunchConfigurations']
   aws_instance_type: "instance type"
-  #Need if you use ecs instance type
-  ##aws_my_user_data: |
-  ##              #!/bin/bash
-  ##              echo ECS_CLUSTER={{ clustername }} >> /etc/ecs/ecs.config
-
   aws_asg_name: "auto scaling group name"
   aws_vpc_id: "vpc id for LaunchConfigurations and target group"
   #aws_vpc_zone - vpc subnets for autoscaling group
@@ -26,3 +23,4 @@ lc-asg:
   aws_tg_name: "name of target group"
   #Need if you use ecs instance type
   #aws_ecs_ec2_role: "ecsInstanceRole"
+  
