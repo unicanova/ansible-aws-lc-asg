@@ -1,9 +1,9 @@
 ---
 # vars file for ansible-lc-asg-aws
 lc_asg:
-  #Uncomment aws_ecs if you be used ecs
-  #aws_ecs: "Yes"
-  #aws_ecs_clustername: "name of ecs cluster if used"
+  # Uncomment aws_ecs if you be used ecs
+  # aws_ecs: True
+  # aws_ecs_clustername: "name of ecs cluster if used"
   aws_region: "region id"
   aws_lc_name: "name of LaunchConfigurations"
   aws_ami_id: "ami id"
@@ -21,6 +21,7 @@ lc_asg:
   aws_alb_subnet_az_b: "subnet id for availability zone b"
   aws_alb_subnet_az_c: "subnet id for availability zone c"
   aws_tg_name: "name of target group"
-  #Need if you use ecs instance type
-  #aws_ecs_ec2_role: "ecsInstanceRole"
-  
+  # Optionally you can set user_data for your instances(it will be overriden if ECS is used as well)
+  # user_data: "#/bin/bash"
+  # Need if you use ecs instance type
+  aws_ec2_role: "ecsInstanceRole"

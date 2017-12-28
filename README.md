@@ -42,7 +42,7 @@ aws_alb_subnet_az_b: "subnet id for availability zone b"
 aws_alb_subnet_az_c: "subnet id for availability zone c"
 aws_tg_name: "name of target group"
 ###Uncomment if you use ecs instance type###
-#aws_ecs_ec2_role: "ecsInstanceRole"
+#aws_ec2_role: "ecsInstanceRole"
 ```
 
 Example Playbook
