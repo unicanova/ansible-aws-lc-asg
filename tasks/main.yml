@@ -60,28 +60,12 @@
       key_name: "{{ lc_asg.aws_key_pair }}"
       security_groups: "{{ lc_asg.aws_sg_lc }}"
       instance_type: "{{ lc_asg.aws_instance_type }}"
+      instance_profile_name: "{{ lc_asg.aws_ec2_role | default(omit) }}"
+      user_data: "{{ lookup('template', 'files/user_data.sh.j2') if lc_asg.aws_ecs|default(False) else lc_asg.user_data | default(omit) }}"
       assign_public_ip: True
       vpc_id: "{{ lc_asg.aws_vpc_id }}"
     tags:
       - lc
-    when: lc_asg.aws_ecs is not defined
-
-  - name: Create launch configuration
-    ec2_lc:
-      name: "{{ lc_asg.aws_lc_name }}"
-      region: "{{ lc_asg.aws_region }}"
-      image_id: "{{ lc_asg.aws_ami_id }}"
-      key_name: "{{ lc_asg.aws_key_pair }}"
-      security_groups: "{{ lc_asg.aws_sg_lc }}"
-      instance_type: "{{ lc_asg.aws_instance_type }}"
-      instance_profile_name: "{{ lc_asg.aws_ecs_ec2_role }}"
-      user_data: "{{ lookup('template', 'files/user_data.sh.j2') }}"
-      assign_public_ip: True
-      vpc_id: "{{ lc_asg.aws_vpc_id }}"
-    tags:
-      - lc
-    when: lc_asg.aws_ecs is defined
-
 
   - name: Create ASG for esc cluster
     ec2_asg:
