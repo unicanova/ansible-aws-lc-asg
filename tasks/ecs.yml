@@ -1,0 +1,10 @@
+---
+
+  - name: Create esc cluster
+    ecs_cluster:
+      name: "{{ lc_asg.ecs.cluster_name }}"
+      region: "{{ lc_asg.aws_region }}"
+      state: present
+    tags:
+      - ec2cluster
+    when: lc_asg.ecs['create_cluster']
