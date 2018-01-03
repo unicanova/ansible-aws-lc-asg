@@ -27,7 +27,7 @@
       max_size: 5
       desired_capacity: 1
       region: "{{ lc_asg.aws_region }}"
-      vpc_zone_identifier: "{{ lc_asg.aws_vpc_zone | default(omit) }}"
+      vpc_zone_identifier: "{{ lc_asg.subnets | default(omit) }}"
       target_group_arns: "{{ lc_asg_tg | default(omit) }}"
     tags:
       - asg
