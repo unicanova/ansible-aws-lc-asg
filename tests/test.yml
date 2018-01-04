@@ -28,4 +28,5 @@
      tg: "{{ target_group }}"
      alb: "{{ application_load_balancer }}"
      subnets: "{{ subnets }}"
+     aws_test: "true"
 

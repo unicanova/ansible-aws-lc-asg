@@ -7,4 +7,4 @@
 - include: alb.yml
   when: lc_asg.alb is defined
 - include: purge.yml
-  when: target_group.name == "test"
+  when: lc_asg.aws_test == "true"
