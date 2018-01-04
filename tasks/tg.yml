@@ -25,9 +25,6 @@
     register: tg
     when: lc_asg.tg.manage
 
-  - debug:
-      var: tg
-
   - name: Set target group arn
     set_fact:
       lc_asg_tg: "{{ tg.target_group_arn if lc_asg.tg.manage else lc_asg.tg.arns }}"
