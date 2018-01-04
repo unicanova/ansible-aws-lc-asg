@@ -1,0 +1,39 @@
+---
+
+# Purge AWS 
+
+  - name: Delete ALB
+    elb_application_lb:
+      name: "{{ lc_asg.alb.name }}"
+      region: "{{ lc_asg.aws_region }}"
+      state: absent
+    when: lc_asg.alb is defined
+
+  - name: Delete ASG with discovered tg arn
+    ec2_asg:
+      name: "{{ lc_asg.aws_asg_name }}"
+      launch_config_name: "{{ lc_asg.aws_lc_name }}"
+      region: "{{ lc_asg.aws_region }}"
+      state: absent
+
+  - name: Delete target group
+    elb_target_group:
+      name: "{{ lc_asg.tg.name }}"     
+      region: "{{ lc_asg.aws_region }}"
+      state: absent
+    when: lc_asg.tg is defined
+
+  - name: Delete launch configuration
+    ec2_lc:
+      name: "{{ lc_asg.aws_lc_name }}"
+      region: "{{ lc_asg.aws_region }}"     
+      instance_type: "{{ lc_asg.aws_instance_type }}"
+      state: absent
+
+  - name: Delete esc cluster
+    ecs_cluster:
+      name: "{{ lc_asg.ecs.cluster_name }}"
+      region: "{{ lc_asg.aws_region }}"
+      state: absent 
+    when: lc_asg.ecs is defined
+

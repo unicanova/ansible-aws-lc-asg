@@ -1,14 +1,15 @@
 - hosts: 127.0.0.1
   connection: local
-  roles:
-   - { role: ansible-aws-lc-asg, tags: 'test' }
+  tasks:
+   - import_role:
+       name: ansible-aws-lc-asg 
   vars:
    subnets:
      - "subnet-9b33fff3"
      - "subnet-5118182a"
      - "subnet-f5480eb8"
    target_group:
-     name: "my-tg"
+     name: "test"
      manage: true
    application_load_balancer:
      name: "my-alb"
@@ -27,4 +28,6 @@
      tg: "{{ target_group }}"
      alb: "{{ application_load_balancer }}"
      subnets: "{{ subnets }}"
+     aws_test: true
+     aws_key_pair: "Demoproject"
 

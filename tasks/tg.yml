@@ -18,6 +18,7 @@
       successful_response_codes: "200"
       state: "{{ lc_asg.tg.state | default('present') }}"
       wait_timeout: 200
+      modify_targets: false
       wait: True
     tags:
       - tg
