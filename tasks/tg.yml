@@ -18,11 +18,15 @@
       successful_response_codes: "200"
       state: "{{ lc_asg.tg.state | default('present') }}"
       wait_timeout: 200
+      modify_targets: false
       wait: True
     tags:
       - tg
     register: tg
     when: lc_asg.tg.manage
+
+  - debug:
+      var: tg
 
   - name: Set target group arn
     set_fact:
