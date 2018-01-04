@@ -1,0 +1,14 @@
+---
+# Add target group to load balancer
+
+  - name: Create ALB
+    elb_application_lb:
+      name: "{{ lc_asg.alb.name }}"
+      region: "{{ lc_asg.aws_region }}"
+      security_groups: "{{ lc_asg.alb.security_groups }}"
+      subnets: "{{ lc_asg.alb.subnets }}"
+      listeners: "{{ lc_asg.alb.listeners }}"
+      state: present
+    tags:
+      - alb
+    register: alb

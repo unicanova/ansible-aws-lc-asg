@@ -1,0 +1,33 @@
+---
+# tasks file for ansible-lc-asg-aws
+  
+  - name: Create launch configuration
+    ec2_lc:
+      name: "{{ lc_asg.aws_lc_name }}"
+      region: "{{ lc_asg.aws_region }}"
+      image_id: "{{ lc_asg.aws_ami_id | default(omit) }}"
+      key_name: "{{ lc_asg.aws_key_pair }}"
+      security_groups: "{{ lc_asg.aws_sg_lc | default(omit) }}"
+      instance_type: "{{ lc_asg.aws_instance_type }}"
+      instance_profile_name: "{{ lc_asg.aws_ec2_role | default(omit) }}"
+      user_data: "{{ lookup('template', 'files/user_data.sh.j2') if lc_asg.ecs_join | default(False) else lc_asg.user_data | default(omit) }}"
+      assign_public_ip: "{{ lc_asg.assign_public_ip | default(omit) }}"
+      vpc_id: "{{ lc_asg.aws_vpc_id | default(omit) }}"
+    tags:
+      - lc
+
+  - name: Create ASG with discovered tg arn
+    ec2_asg:
+      name: "{{ lc_asg.aws_asg_name }}"
+      launch_config_name: "{{ lc_asg.aws_lc_name }}"
+      health_check_period: 60
+      health_check_type: EC2
+      replace_all_instances: yes
+      min_size: 1
+      max_size: 5
+      desired_capacity: 1
+      region: "{{ lc_asg.aws_region }}"
+      vpc_zone_identifier: "{{ lc_asg.subnets | default(omit) }}"
+      target_group_arns: "{{ lc_asg_tg | default(omit) }}"
+    tags:
+      - asg

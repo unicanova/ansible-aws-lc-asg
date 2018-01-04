@@ -1,2 +1,13 @@
 ---
 # defaults file for ansible-lc-asg-aws
+
+default_lc_asg:
+  aws_region: "us-east-1"
+  aws_lc_name: "my-launch-configuration"
+  aws_key_pair: "default"
+  aws_instance_type: "t2.micro"
+  aws_asg_name: "my-asg"
+  aws_ami_id: "ami-e7d6c983"
+
+lc_asg: "{{ default_lc_asg | combine(user_lc_asg|default({}), recursive=True) }}"
+
