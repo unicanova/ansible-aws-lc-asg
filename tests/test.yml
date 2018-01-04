@@ -29,4 +29,5 @@
      alb: "{{ application_load_balancer }}"
      subnets: "{{ subnets }}"
      aws_test: "true"
+     aws_key_pair: "Demoproject"
 
