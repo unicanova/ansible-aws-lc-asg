@@ -13,4 +13,4 @@ script:
  - ansible-playbook --syntax-check test.yml
  - ansible-playbook -vvv test.yml
 after_script:
- - ansible-playbook -vvv test.yml tags "purge"
+ - ansible-playbook -vvv test.yml --tags "purge"
