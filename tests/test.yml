@@ -1,33 +1,57 @@
 - hosts: 127.0.0.1
   connection: local
   tasks:
-   - import_role:
-       name: ansible-aws-lc-asg 
-  vars:
-   subnets:
-     - "subnet-9b33fff3"
-     - "subnet-5118182a"
-     - "subnet-f5480eb8"
-   target_group:
-     name: "test"
-     manage: true
-   application_load_balancer:
-     name: "my-alb"
-     subnets: "{{ subnets }}"
-     security_groups: "sg-4dfef325"
-     listeners:
-       - Protocol: HTTP 
-         Port: 80
-         DefaultActions:
-           - Type: forward 
-             TargetGroupName: "{{ target_group.name }}"
+    - import_role:
+        name: ansible-aws-lc-asg
+    
+    - name: Include default variables
+      tags: purge
+      include_vars: 
+        file: ../defaults/main.yml
 
-   user_lc_asg:
-     aws_region: "us-east-2"
-     aws_vpc_id: "vpc-5dd81d35"
-     tg: "{{ target_group }}"
-     alb: "{{ application_load_balancer }}"
-     subnets: "{{ subnets }}"
-     aws_test: true
-     aws_key_pair: "Demoproject"
+    - name: Include user variables
+      tags: purge
+      include_vars:
+        file: ../vars/main.yml
 
+    - name: Delete ALB
+      tags: purge
+      elb_application_lb:
+        name: "{{ lc_asg.alb.name }}"
+        region: "{{ lc_asg.aws_region }}"
+        state: absent
+
+    - name: Delete ASG with discovered tg arn
+      ignore_errors: yes
+      tags: purge
+      ec2_asg:
+        name: "{{ lc_asg.aws_asg_name }}"
+        launch_config_name: "{{ lc_asg.aws_lc_name }}"
+        region: "{{ lc_asg.aws_region }}"
+        state: absent
+
+    - name: Delete target group
+      ignore_errors: yes
+      tags: purge
+      elb_target_group:
+        name: "{{ lc_asg.tg.name }}"
+        region: "{{ lc_asg.aws_region }}"
+        state: absent
+
+    - name: Delete launch configuration
+      tags: purge
+      ignore_errors: yes
+      ec2_lc:
+        name: "{{ lc_asg.aws_lc_name }}"
+        region: "{{ lc_asg.aws_region }}"
+        instance_type: "{{ lc_asg.aws_instance_type }}"
+        state: absent
+
+    - name: Delete esc cluster
+      tags: purge
+      ignore_errors: yes
+      ecs_cluster:
+        name: "{{ lc_asg.ecs.cluster_name }}"
+        region: "{{ lc_asg.aws_region }}"
+        state: absent
+      when: lc_asg.ecs is defined

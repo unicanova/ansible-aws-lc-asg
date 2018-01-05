@@ -8,7 +8,6 @@ default_lc_asg:
   aws_instance_type: "t2.micro"
   aws_asg_name: "my-asg"
   aws_ami_id: "ami-82f4dae7"
-  aws_test: false
 
 lc_asg: "{{ default_lc_asg | combine(user_lc_asg|default({}), recursive=True) }}"
 
