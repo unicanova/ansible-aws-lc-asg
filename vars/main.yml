@@ -23,3 +23,4 @@
 #  aws_vpc_id: "vpc-00f8c269"
 #  tg: "{{ target_group }}"
 #  alb: "{{ application_load_balancer }}"
+#  subnets: "{{ subnets }}"
