@@ -4,8 +4,8 @@ galaxy_info:
   categories: 
   - development
   - web
-  description: This role create AWS Autoscaling Group with Application load balancer. You can enable support AWS Elastic Container Service, then ASG to be attached on ecs cluster. 
-  company: UnicaNova https://unicanova.com/ 
+  description: This role create AWS Autoscaling Group with Application load balancer. You can enable support AWS Elastic Container Service, then ASG to be attached on ecs cluster.
+  company: UnicaNova https://unicanova.com/
   license: license (MIT)
   min_ansible_version: 2.4.2.0
   galaxy_tags: 
