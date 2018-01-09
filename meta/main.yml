@@ -1,23 +1,23 @@
 ---
 galaxy_info:
   author: Konstantin Kalinovckyi k@unicanova.com
-  description: Ansible role to manage AWS launch configuration and put it into autoscalind group, . Can used with ECS and ALB
+  description: This role create AWS Autoscaling Group with Application load balancer. You can enable support AWS Elastic Container Service, then ASG to be attached on ecs cluster.
   company: UnicaNova https://unicanova.com/
   license: license (MIT)
-  min_ansible_version: 2.4
+  min_ansible_version: 2.4.2.0
   galaxy_tags: 
+    - role
     - aws
-    - creating instance
     - cloud
     - automaiton    
     - ASG
     - ALB 
     - ECS
   platforms:
-  - name: CentOS
-    versions:
-    - all
   - name: Ubuntu
     versions: 
-    - all
+    - xenial 
+  cloud_platforms:
+  - aws
+  - amazon web services
   dependencies: []
