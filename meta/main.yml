@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Konstantin Kalinovckyi k@unicanova.com
-  description: Ansible role for create ASG and ALB. Can used with ECS
+  description: Ansible role to manage AWS launch configuration and put it into autoscalind group, . Can used with ECS and ALB
   company: UnicaNova https://unicanova.com/
   license: license (MIT)
   min_ansible_version: 2.4
