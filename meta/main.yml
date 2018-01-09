@@ -1,6 +1,9 @@
 ---
 galaxy_info:
   author: Konstantin Kalinovckyi k@unicanova.com
+  categories: 
+  - development
+  - web
   description: This role create AWS Autoscaling Group with Application load balancer. You can enable support AWS Elastic Container Service, then ASG to be attached on ecs cluster.
   company: UnicaNova https://unicanova.com/
   license: license (MIT)
@@ -17,7 +20,4 @@ galaxy_info:
   - name: Ubuntu
     versions: 
     - xenial 
-  cloud_platforms:
-  - aws
-  - amazon web services
   dependencies: []
