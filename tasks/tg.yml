@@ -1,0 +1,30 @@
+---
+
+# Create target group and pass it's arn to autoscaling group
+
+  - name: Create target group
+    elb_target_group:
+      region: "{{ lc_asg.aws_region }}"
+      name: "{{ lc_asg.tg.name }}"
+      protocol: http
+      port: 80
+      vpc_id: "{{ lc_asg.aws_vpc_id | default(omit) }}"
+      health_check_path: /
+      health_check_protocol: http
+      health_check_port: 80
+      health_check_interval: 5
+      health_check_timeout: 3
+      healthy_threshold_count: 2
+      successful_response_codes: "200"
+      state: "{{ lc_asg.tg.state | default('present') }}"
+      wait_timeout: 200
+      modify_targets: false
+      wait: True
+    tags:
+      - tg
+    register: tg
+    when: lc_asg.tg.manage
+
+  - name: Set target group arn
+    set_fact:
+      lc_asg_tg: "{{ tg.target_group_arn if lc_asg.tg.manage else lc_asg.tg.arns }}"

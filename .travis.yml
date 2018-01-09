@@ -1,0 +1,16 @@
+---
+language: python
+python: "2.7"
+before_install:
+ - cp tests/main.yml vars/main.yml
+install:
+ - pip install boto
+ - pip install boto3
+ - pip install botocore
+ - pip install ansible
+script:
+ - cd tests/
+ - ansible-playbook --syntax-check test.yml
+ - ansible-playbook -vvv test.yml
+after_script:
+ - ansible-playbook -vvv test.yml --tags "purge"

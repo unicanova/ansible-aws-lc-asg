@@ -1,0 +1,27 @@
+---
+
+subnets:
+  - "subnet-9b33fff3"
+  - "subnet-5118182a"
+  - "subnet-f5480eb8"
+target_group:
+  name: "test"
+  manage: true
+application_load_balancer:
+  name: "my-alb"
+  subnets: "{{ subnets }}"
+  security_groups: "sg-4dfef325"
+  listeners:
+    - Protocol: HTTP
+      Port: 80
+      DefaultActions:
+        - Type: forward
+          TargetGroupName: "{{ target_group.name }}"
+
+user_lc_asg:
+  aws_region: "us-east-2"
+  aws_vpc_id: "vpc-5dd81d35"
+  tg: "{{ target_group }}"
+  alb: "{{ application_load_balancer }}"
+  subnets: "{{ subnets }}"
+  aws_key_pair: "Demoproject"

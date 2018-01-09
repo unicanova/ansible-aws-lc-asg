@@ -1,6 +1,23 @@
+---
 galaxy_info:
-  author: Sergey Ovsienko so@unicanova.com
+  author: Konstantin Kalinovckyi k@unicanova.com
   description: Ansible role for create ASG and ALB. Can used with ECS
   company: UnicaNova https://unicanova.com/
   license: license (MIT)
   min_ansible_version: 2.4
+  galaxy_tags: 
+    - aws
+    - creating instance
+    - cloud
+    - automaiton    
+    - ASG
+    - ALB 
+    - ECS
+  platforms:
+  - name: CentOS
+    versions:
+    - all
+  - name: Ubuntu
+    versions: 
+    - all
+  dependencies: []

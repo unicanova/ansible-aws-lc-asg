@@ -1,27 +1,26 @@
 ---
-# vars file for ansible-lc-asg-aws
-lc_asg:
-  # Uncomment aws_ecs if you be used ecs
-  # aws_ecs: True
-  # aws_ecs_clustername: "name of ecs cluster if used"
-  aws_region: "region id"
-  aws_lc_name: "name of LaunchConfigurations"
-  aws_ami_id: "ami id"
-  aws_key_pair: "ssh key name"
-  aws_sg_alb: "security group for alb"
-  aws_sg_lc: ['security group for LaunchConfigurations']
-  aws_instance_type: "instance type"
-  aws_asg_name: "auto scaling group name"
-  aws_vpc_id: "vpc id for LaunchConfigurations and target group"
-  #aws_vpc_zone - vpc subnets for autoscaling group
-  aws_vpc_zone: ['subnet id for availability zone a', 'subnet id for availability zone b', 'subnet id for availability zone c']
-  aws_alb_name: "Name of ALB"
-  #subneta, subnetb, subnetc - vpc subnets for ALB
-  aws_alb_subnet_az_a: "subnet id for availability zone a"
-  aws_alb_subnet_az_b: "subnet id for availability zone b"
-  aws_alb_subnet_az_c: "subnet id for availability zone c"
-  aws_tg_name: "name of target group"
-  # Optionally you can set user_data for your instances(it will be overriden if ECS is used as well)
-  # user_data: "#/bin/bash"
-  # Need if you use ecs instance type
-  aws_ec2_role: "ecsInstanceRole"
+# Example playbook usage
+
+#subnets:
+#  - "subnet-3a0d4877"
+#  - "subnet-40b2993b"
+#target_group:
+#  name: "my-tg"
+#  manage: true
+#application_load_balancer:
+#  name: "my-alb"
+#  subnets: "{{ subnets }}"
+#  security_groups: "default"
+#  listeners:
+#    - Protocol: HTTP 
+#      Port: 80
+#      DefaultActions:
+#        - Type: forward 
+#          TargetGroupName: "{{ target_group.name }}"
+#
+#user_lc_asg:
+#  aws_region: "eu-west-2"
+#  aws_vpc_id: "vpc-00f8c269"
+#  tg: "{{ target_group }}"
+#  alb: "{{ application_load_balancer }}"
+#  subnets: "{{ subnets }}"
