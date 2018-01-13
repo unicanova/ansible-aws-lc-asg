@@ -1,4 +1,4 @@
-ansible-lc-asg-aws
+﻿ansible-lc-asg-aws
 =========
 
 [![Build Status](https://travis-ci.org/zedit/ansible-aws-lc-asg.svg?branch=dev)](https://travis-ci.org/zedit/ansible-aws-lc-asg) 
@@ -19,8 +19,59 @@ json
 
 
 Role Variables
---------------
-Example role variables is in vars/main.yml
+
+main file which contains variables values
+
+vars/main.yml:
+---
+###values of variables uses in ALB and ASG###
+subnets: - subnets for 
+  - "subnet-3a0d4877"
+  - "subnet-40b2993b"
+
+###values of variables uses for target group###
+target_group:
+  name: "my-tg"
+  manage: true
+
+###values of variables uses for ALB###
+application_load_balancer:
+  name: "my-alb"
+  subnets: "{{ subnets }}"
+  security_groups: "default"
+  listeners:
+    - Protocol: HTTP 
+      Port: 80
+      DefaultActions:
+        - Type: forward 
+          TargetGroupName: "{{ target_group.name }}"
+
+###users values###
+user_lc_asg:
+  aws_region: "eu-west-2"
+  aws_vpc_id: "vpc-00f8c269"
+  tg: "{{ target_group }}"
+  alb: "{{ application_load_balancer }}"
+  subnets: "{{ subnets }}"
+
+
+If the are no custom variables, then the variables are taken from the file
+defaults/main.yml
+
+---
+# defaults file for ansible-lc-asg-aws
+
+default_lc_asg:
+  aws_region: "us-east-1"
+  aws_lc_name: "my-launch-configuration"
+  aws_key_pair: "default"
+  aws_instance_type: "t2.micro"
+  aws_asg_name: "my-asg"
+  aws_ami_id: "ami-82f4dae7"
+
+###This line override default variables if custom variables are defined### 
+lc_asg: "{{ default_lc_asg | combine(user_lc_asg|default({}), recursive=True) }}"
+
 
 Example Playbook
 ----------------
