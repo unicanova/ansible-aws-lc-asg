@@ -23,6 +23,7 @@ Role Variables
 main file which contains variables values
 
 vars/main.yml:
+```sh
 ---
 ###values of variables uses in ALB and ASG###
 subnets: - subnets for 
@@ -53,11 +54,12 @@ user_lc_asg:
   tg: "{{ target_group }}"
   alb: "{{ application_load_balancer }}"
   subnets: "{{ subnets }}"
-
+```
 
 If the are no custom variables, then the variables are taken from the file
 defaults/main.yml
 
+```sh
 ---
 # defaults file for ansible-lc-asg-aws
 
@@ -71,7 +73,7 @@ default_lc_asg:
 
 ###This line override default variables if custom variables are defined### 
 lc_asg: "{{ default_lc_asg | combine(user_lc_asg|default({}), recursive=True) }}"
-
+```
 
 Example Playbook
 ----------------
