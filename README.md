@@ -108,8 +108,13 @@ pipelining = True
 roles_path = roles
 ```
 
-Example playbook is in example/site.yml
-
+Example playbook 
+```sh
+- hosts: 127.0.0.1
+  connection: local
+  roles:
+   - { role: ansible-lc-asg-aws, tags: 'test' }
+```
 Run anisble:
 ```sh
 ansible-playbook site.yaml -t test
